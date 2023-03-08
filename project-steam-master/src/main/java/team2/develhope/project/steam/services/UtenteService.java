@@ -78,12 +78,13 @@ public class UtenteService {
        {
                 if (utente.getSaldo() >= videogioco.getPrezzo()) {
                     Acquisto newAcquisto = new Acquisto(utente, videogioco, Timestamp.valueOf(LocalDateTime.now()), true);
-                    double saldoAggiornato = utente.getSaldo() - videogioco.getPrezzo();
-                    utente.setSaldo(saldoAggiornato);
-                    utenteRepository.saveAndFlush(utente);
+
                     for (Acquisto a:acquistos) {
                         if(a.getGioco().getIdVideogioco() == idVideogioco && a.getUtente().getIdUtente() == idUtente){throw new Exception("Hai già acquistato il titolo");
                     }}
+                    double saldoAggiornato = utente.getSaldo() - videogioco.getPrezzo();
+                    utente.setSaldo(saldoAggiornato);
+                    utenteRepository.saveAndFlush(utente);
                     acquistoRepository.saveAndFlush(newAcquisto);
                     HttpStatus status = HttpStatus.OK;
                     return status;
